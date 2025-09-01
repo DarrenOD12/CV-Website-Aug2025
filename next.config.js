@@ -16,8 +16,8 @@ const nextConfig = {
     unoptimized: true, // Required for static export
   },
   
-  // Your existing optimization settings
-  swcMinify: true,
+  // Remove swcMinify as it's now deprecated or auto-enabled
+  // swcMinify: true,
   
   // Your existing experimental features
   experimental: {
