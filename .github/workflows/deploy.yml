@@ -45,165 +45,118 @@ jobs:
           module.exports = nextConfig;
           EOL
       
-      # Skip the Next.js build and create static HTML directly
-      - name: Create static HTML
+      - name: Build Next.js application
         run: |
-          mkdir -p out
-          cat > out/index.html << 'EOL'
-          <!doctype html>
-          <html lang="en">
-            <head>
-              <meta charset="UTF-8" />
-              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-              <title>Darren O'Donnell - Interactive CV</title>
-              <style>
-                body {
-                  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  height: 100vh;
-                  margin: 0;
-                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                  color: white;
-                }
-                .container {
-                  text-align: center;
-                  padding: 2rem;
-                  max-width: 800px;
-                }
-                h1 {
-                  font-size: 2.5rem;
-                  margin-bottom: 0.5rem;
-                }
-                .content {
-                  background: rgba(255, 255, 255, 0.1);
-                  border-radius: 10px;
-                  padding: 2rem;
-                  margin-top: 2rem;
-                }
-                .message {
-                  margin-top: 2rem;
-                  padding: 1rem;
-                  background: rgba(255, 255, 255, 0.2);
-                  border-radius: 5px;
-                }
-                .button {
-                  display: inline-block;
-                  margin-top: 1.5rem;
-                  padding: 0.75rem 1.5rem;
-                  background: rgba(255, 255, 255, 0.2);
-                  color: white;
-                  text-decoration: none;
-                  border-radius: 5px;
-                  font-weight: 500;
-                  transition: background 0.3s;
-                }
-                .button:hover {
-                  background: rgba(255, 255, 255, 0.3);
-                }
-                .skills {
-                  display: flex;
-                  flex-wrap: wrap;
-                  justify-content: center;
-                  gap: 0.5rem;
-                  margin-top: 1.5rem;
-                }
-                .skill-tag {
-                  background: rgba(255, 255, 255, 0.15);
-                  padding: 0.5rem 1rem;
-                  border-radius: 20px;
-                  font-size: 0.9rem;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="container">
-                <h1>Darren O'Donnell</h1>
-                <p>Interactive CV Website</p>
-                
-                <div class="content">
-                  <h2>Welcome to my Portfolio</h2>
-                  <p>Software Engineer with expertise in modern web development</p>
-                  
-                  <div class="skills">
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">React</span>
-                    <span class="skill-tag">Next.js</span>
-                    <span class="skill-tag">Node.js</span>
-                    <span class="skill-tag">TypeScript</span>
-                    <span class="skill-tag">Tailwind CSS</span>
-                  </div>
-                  
-                  <div class="message">
-                    <p>The complete interactive CV is under development!</p>
-                    <p>Meanwhile, check out my projects and get in touch.</p>
-                    <a href="https://github.com/DarrenOD12" class="button">GitHub Profile</a>
-                  </div>
-                </div>
-              </div>
-            </body>
-          </html>
-          EOL
+          # Try various build commands until one works
+          echo "Attempting to build with npx..."
+          npx next build || \
+          echo "Attempting to build with local next binary..." && \
+          ./node_modules/.bin/next build || \
+          echo "Attempting to build with node directly..." && \
+          node ./node_modules/next/dist/bin/next build
           
-          # Also create a 404 page
-          cat > out/404.html << 'EOL'
-          <!doctype html>
-          <html lang="en">
-            <head>
-              <meta charset="UTF-8" />
-              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-              <title>Page Not Found - Darren O'Donnell</title>
-              <style>
-                body {
-                  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  height: 100vh;
-                  margin: 0;
-                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                  color: white;
-                }
-                .container {
-                  text-align: center;
-                  padding: 2rem;
-                  max-width: 800px;
-                }
-                h1 {
-                  font-size: 2.5rem;
-                  margin-bottom: 0.5rem;
-                }
-                .content {
-                  background: rgba(255, 255, 255, 0.1);
-                  border-radius: 10px;
-                  padding: 2rem;
-                  margin-top: 2rem;
-                }
-                .button {
-                  display: inline-block;
-                  margin-top: 1.5rem;
-                  padding: 0.75rem 1.5rem;
-                  background: rgba(255, 255, 255, 0.2);
-                  color: white;
-                  text-decoration: none;
-                  border-radius: 5px;
-                  font-weight: 500;
-                }
-              </style>
-            </head>
-            <body>
-              <div class="container">
-                <h1>404 - Page Not Found</h1>
-                
-                <div class="content">
-                  <p>The page you're looking for doesn't exist.</p>
-                  <a href="/CV-Website-Aug2025/" class="button">Return to Homepage</a>
+      - name: Create 404.html for SPA routing
+        run: |
+          # Only create 404.html if it doesn't exist
+          if [ ! -f "out/404.html" ]; then
+            cat > out/404.html << 'EOL'
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta charset="utf-8">
+                <title>Darren O'Donnell - Interactive CV</title>
+                <script>
+                  // Single Page App routing fix for GitHub Pages
+                  (function() {
+                    const path = window.location.pathname;
+                    const basePath = '/CV-Website-Aug2025';
+                    
+                    // If path starts with basePath, redirect to index with the rest as query param
+                    if (path.indexOf(basePath) === 0) {
+                      const restPath = path.substr(basePath.length);
+                      if (restPath && restPath !== '/') {
+                        window.location.href = basePath + '/?path=' + encodeURIComponent(restPath);
+                        return;
+                      }
+                    }
+                    
+                    // Default redirect
+                    window.location.href = basePath + '/';
+                  })();
+                </script>
+                <meta http-equiv="refresh" content="0;URL='/CV-Website-Aug2025/'">
+              </head>
+              <body>
+                Redirecting to homepage...
+              </body>
+            </html>
+            EOL
+          fi
+          
+      - name: Create fallback index.html (only if build failed)
+        run: |
+          # Only create a fallback if out directory doesn't exist or is empty
+          if [ ! -d "out" ] || [ -z "$(ls -A out)" ]; then
+            mkdir -p out
+            cat > out/index.html << 'EOL'
+            <!doctype html>
+            <html lang="en">
+              <head>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <title>Darren O'Donnell - Interactive CV</title>
+                <style>
+                  body {
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    margin: 0;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                  }
+                  .container {
+                    text-align: center;
+                    padding: 2rem;
+                    max-width: 800px;
+                  }
+                  h1 {
+                    font-size: 2.5rem;
+                    margin-bottom: 0.5rem;
+                  }
+                  .content {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 10px;
+                    padding: 2rem;
+                    margin-top: 2rem;
+                  }
+                  .message {
+                    margin-top: 2rem;
+                    padding: 1rem;
+                    background: rgba(255, 255, 255, 0.2);
+                    border-radius: 5px;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="container">
+                  <h1>Darren O'Donnell</h1>
+                  <p>Interactive CV Website</p>
+                  
+                  <div class="content">
+                    <h2>Site Under Maintenance</h2>
+                    <p>The complete interactive CV website is being updated.</p>
+                    
+                    <div class="message">
+                      <p>Please check back soon!</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </body>
-          </html>
-          EOL
+              </body>
+            </html>
+            EOL
+          fi
           
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
