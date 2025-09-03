@@ -3,8 +3,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "export": "next export"
+    "start": "next start"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",
@@ -26,7 +25,7 @@
     "cmdk": "^1.0.4",
     "embla-carousel-react": "^8.5.2",
     "lucide-react": "^0.468.0",
-    "next": "^14.2.32",
+    "next": "14.2.23",
     "next-themes": "^0.2.1",
     "prettier": "^3.3.3",
     "radix-ui": "^1.1.3",
