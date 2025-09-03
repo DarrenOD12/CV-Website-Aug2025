@@ -7,9 +7,6 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-// Define the base path for GitHub Pages
-const basePath = process.env.NODE_ENV === 'production' ? '/CV-Website-Aug2025' : '';
-
 export const metadata: Metadata = {
   title: "Darren O'Donnell - Interactive CV",
   description:
@@ -56,33 +53,18 @@ export default function RootLayout({
       <head>
         <link
           rel="preload"
-          href={`${basePath}/assets/Helixa-Light.woff2`}
+          href="/assets/Helixa-Light.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
-          href={`${basePath}/assets/Callestany.woff2`}
+          href="/assets/Callestany.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        
-        {/* GitHub Pages SPA routing script */}
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            // Handle redirection from 404.html
-            (function() {
-              const query = window.location.search;
-              const path = query.match(/path=([^&]*)/);
-              if (path && path[1]) {
-                const route = decodeURIComponent(path[1]);
-                window.history.replaceState(null, null, route);
-              }
-            })();
-          `
-        }} />
       </head>
       <body className={inter.className}>
         <ClientLayout>
