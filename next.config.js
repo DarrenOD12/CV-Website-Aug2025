@@ -7,7 +7,7 @@ const nextConfig = {
   swcMinify: true,
   // Enable experimental features for better performance
   experimental: {
-    optimizeCss: true,
+    optimizeCss: false,
   },
 };
 
