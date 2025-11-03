@@ -1,7 +1,7 @@
-import type React from "react"
+"use client"
 
-const Page: React.FC = () => {
-  return <div>{/* rest of code here */}</div>
+import  from "../src/components/ui/alert-dialog"
+
+export default function SyntheticV0PageForDeployment() {
+  return < />
 }
-
-export default Page
