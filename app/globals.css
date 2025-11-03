@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Helixa Light";
+  src: url("/assets/Helixa-Light.woff2") format("woff2"), url("/assets/Helixa-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Callestany";
+  src: url("/assets/Callestany.woff2") format("woff2"), url("/assets/Callestany.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -88,5 +104,35 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Helixa Light", sans-serif;
   }
+}
+
+@keyframes growVertical {
+  from {
+    height: 0;
+  }
+  to {
+    height: 120px;
+  }
+}
+
+.vertical-line-grow {
+  animation: growVertical 2s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+.fadeInUp-animation {
+  animation: 3s fadeInUp;
 }
