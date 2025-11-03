@@ -27,7 +27,7 @@ const achievements = [
   {
     title: "Knowledge Leadership & Documentation",
     description:
-      "Established reputation as knowledge leader, developing comprehensive documentation frameworks that enhanced cross-functional performance and client success",
+      "Established reputation as knowledge leader, developing comprehensive internal and external facing documentation that enhanced cross-functional performance and user success",
     icon: "/assets/knowledge.png",
   },
 ]
@@ -222,7 +222,7 @@ export default function KeyAchievements() {
                       <div className="grid grid-cols-3 gap-2 text-center">
                         <div className="text-xs font-helixa">
                           <div className="text-lg font-bold text-primary">Top 5%</div>
-                          <div className="text-muted-foreground">Most Viewed</div>
+                          <div className="text-muted-foreground">Most Viewed Internal Docs</div>
                         </div>
                         <div className="text-xs font-helixa">
                           <div className="text-lg font-bold text-primary">60+</div>
@@ -230,7 +230,7 @@ export default function KeyAchievements() {
                         </div>
                         <div className="text-xs font-helixa">
                           <div className="text-lg font-bold text-primary">Top 0.5%</div>
-                          <div className="text-muted-foreground">Employee Rank</div>
+                          <div className="text-muted-foreground">Stripe Employee Ranking</div>
                         </div>
                       </div>
                       <div className="flex justify-center space-x-1">

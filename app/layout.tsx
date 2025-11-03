@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Analytics } from "@vercel/analytics/next"
+import { ThemeProvider } from "../components/theme-provider"
 import "./globals.css"
 
 /* Updated metadata for CV website */
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-    generator: 'v0.app'
+  generator: "v0.app",
 }
 
 export default function RootLayout({
@@ -41,8 +41,9 @@ export default function RootLayout({
         <link rel="preload" href="/assets/Callestany.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
-        {children}
-        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

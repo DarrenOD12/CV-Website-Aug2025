@@ -63,11 +63,14 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 0 0% 3.9%;
+    /* Updated background to #2C2C2C (0 0% 17%) */
+    --background: 0 0% 17%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
+    /* Updated card background to match new dark background */
+    --card: 0 0% 17%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
+    /* Updated popover background to match new dark background */
+    --popover: 0 0% 17%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
@@ -79,7 +82,8 @@
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
+    /* Updated border to white (0 0% 100%) for white borders on cards */
+    --border: 0 0% 100%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
     --chart-1: 220 70% 50%;
