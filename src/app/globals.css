@@ -4,9 +4,7 @@
 
 @font-face {
   font-family: "Helixa Light";
-  src:
-    url("/assets/Helixa-Light.woff2") format("woff2"),
-    url("/assets/Helixa-Light.woff") format("woff");
+  src: url("/assets/Helixa-Light.woff2") format("woff2"), url("/assets/Helixa-Light.woff") format("woff");
   font-weight: 300;
   font-style: normal;
   font-display: block;
@@ -14,9 +12,7 @@
 
 @font-face {
   font-family: "Callestany";
-  src:
-    url("/assets/Callestany.woff2") format("woff2"),
-    url("/assets/Callestany.woff") format("woff");
+  src: url("/assets/Callestany.woff2") format("woff2"), url("/assets/Callestany.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -77,14 +73,15 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
+  /* Apply Helixa font directly without @apply to avoid Tailwind class resolution issues */
   body {
-    @apply bg-background text-foreground font-helixa;
+    @apply bg-background text-foreground;
+    font-family: "Helixa Light", sans-serif;
   }
 }
 

@@ -1,21 +1,9 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useState, useEffect } from "react";
-import { X } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+"use client"
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect, useRef } from "react"
+import { X } from "lucide-react"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
 const achievements = [
   {
@@ -27,7 +15,7 @@ const achievements = [
   {
     title: "Program Management and Team Building",
     description:
-      "Led cross-functional program initiatives scaling operational capacity 10x through strategic leadership, mentorship excellence, and systematic resource optimization across global teams",
+      "Led cross-functional program initiatives to scale the APAC Data Migration team in India, increasing operational capacity 10x through strategic leadership, mentorship excellence, and systematic resource optimization across global teams.",
     icon: "/assets/program.png",
   },
   {
@@ -42,58 +30,80 @@ const achievements = [
       "Established reputation as knowledge leader, developing comprehensive documentation frameworks that enhanced cross-functional performance and client success",
     icon: "/assets/knowledge.png",
   },
-];
+]
 
 export default function KeyAchievements() {
-  const [expandedCard, setExpandedCard] = useState<number | null>(null);
-  const [animationProgress, setAnimationProgress] = useState(0);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null)
+  const [animationProgress, setAnimationProgress] = useState(0)
+  const animationRef = useRef<number | null>(null)
+  const isAnimatingRef = useRef(false)
 
   // Generate full chart data from month 1 to 24, capacity from 5% to 56%
   const chartData = Array.from({ length: 24 }, (_, i) => ({
     month: i + 1,
     capacity: Math.round(5 + (56 - 5) * (i / 23)),
-  }));
+  }))
 
   useEffect(() => {
+    if (animationRef.current !== null) {
+      cancelAnimationFrame(animationRef.current)
+      animationRef.current = null
+      isAnimatingRef.current = false
+    }
+
     if (expandedCard === 1) {
-      // Start line animation when Program Management card is expanded
-      setAnimationProgress(0);
-      const startTime = Date.now();
-      const duration = 2000; // 2 seconds for the animation
+      if (isAnimatingRef.current) {
+        return
+      }
+
+      isAnimatingRef.current = true
+      setAnimationProgress(0)
+      const startTime = Date.now()
+      const duration = 2000
 
       const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        setAnimationProgress(progress);
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        setAnimationProgress(progress)
 
         if (progress < 1) {
-          requestAnimationFrame(animate);
+          animationRef.current = requestAnimationFrame(animate)
+        } else {
+          isAnimatingRef.current = false
+          animationRef.current = null
         }
-      };
+      }
 
-      requestAnimationFrame(animate);
+      animationRef.current = requestAnimationFrame(animate)
     } else {
-      setAnimationProgress(0);
+      setAnimationProgress(0)
+      isAnimatingRef.current = false
     }
-  }, [expandedCard]);
+
+    return () => {
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current)
+        animationRef.current = null
+      }
+      isAnimatingRef.current = false
+    }
+  }, [expandedCard])
 
   const handleCardClick = (index: number) => {
     if (index === 0 || index === 1 || index === 2 || index === 3) {
       // Expand Strategic Product Launches (0), Program Management (1), Client Engagement (2), and Knowledge Leadership (3) cards
-      setExpandedCard(expandedCard === index ? null : index);
+      setExpandedCard(expandedCard === index ? null : index)
     }
-  };
+  }
 
   const closeExpanded = () => {
-    setExpandedCard(null);
-  };
+    setExpandedCard(null)
+  }
 
   return (
     <div className="min-h-screen bg-background pt-16 pb-8 px-4 relative">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-foreground mb-12 font-helixa">
-          Key Achievements
-        </h2>
+        <h2 className="text-4xl font-bold text-center text-foreground mb-12 font-helixa">Key Achievements</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {achievements.map((achievement, index) => (
             <Card
@@ -107,7 +117,7 @@ export default function KeyAchievements() {
                 <div className="flex items-center gap-4">
                   <div className="flex-shrink-0">
                     <img
-                      src={achievement.icon}
+                      src={achievement.icon || "/placeholder.svg"}
                       alt={achievement.title}
                       width={32}
                       height={32}
@@ -139,12 +149,8 @@ export default function KeyAchievements() {
                         <div className="text-xs p-2 bg-background/50 rounded border text-center font-helixa">
                           AU BECS
                         </div>
-                        <div className="text-xs p-2 bg-background/50 rounded border text-center font-helixa">
-                          SEPA
-                        </div>
-                        <div className="text-xs p-2 bg-background/50 rounded border text-center font-helixa">
-                          Cards
-                        </div>
+                        <div className="text-xs p-2 bg-background/50 rounded border text-center font-helixa">SEPA</div>
+                        <div className="text-xs p-2 bg-background/50 rounded border text-center font-helixa">Cards</div>
                       </div>
                       <div className="text-xs text-muted-foreground text-center font-helixa">
                         Click to view documentation links
@@ -156,12 +162,8 @@ export default function KeyAchievements() {
                   {index === 1 && (
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <div className="text-sm font-medium text-foreground font-helixa">
-                          Capacity Growth
-                        </div>
-                        <div className="text-lg font-bold text-primary font-helixa">
-                          5% to 56%
-                        </div>
+                        <div className="text-sm font-medium text-foreground font-helixa">Capacity Growth</div>
+                        <div className="text-lg font-bold text-primary font-helixa">5% to 56%</div>
                       </div>
                       <div
                         className="h-16 bg-white rounded relative overflow-hidden border"
@@ -172,17 +174,8 @@ export default function KeyAchievements() {
                             +1020%
                           </div>
                         </div>
-                        <svg
-                          className="w-full h-full"
-                          viewBox="0 0 100 40"
-                          style={{ backgroundColor: "white" }}
-                        >
-                          <polyline
-                            fill="none"
-                            stroke="#6b21a8"
-                            strokeWidth="2"
-                            points="5,35 25,30 45,20 65,15 85,5"
-                          />
+                        <svg className="w-full h-full" viewBox="0 0 100 40" style={{ backgroundColor: "white" }}>
+                          <polyline fill="none" stroke="#6b21a8" strokeWidth="2" points="5,35 25,30 45,20 65,15 85,5" />
                         </svg>
                       </div>
                       <div className="text-xs text-muted-foreground text-center font-helixa">
@@ -194,28 +187,18 @@ export default function KeyAchievements() {
                   {/* Client Engagement Preview */}
                   {index === 2 && (
                     <div className="space-y-2">
-                      <div className="text-sm font-medium text-foreground font-helixa">
-                        Global Client Engagement
-                      </div>
+                      <div className="text-sm font-medium text-foreground font-helixa">Global Client Engagement</div>
                       <div className="grid grid-cols-3 gap-2 text-center">
                         <div className="text-xs font-helixa">
-                          <div className="text-lg font-bold text-primary">
-                            5+
-                          </div>
-                          <div className="text-muted-foreground">
-                            Payment Types
-                          </div>
+                          <div className="text-lg font-bold text-primary">5+</div>
+                          <div className="text-muted-foreground">Payment Types</div>
                         </div>
                         <div className="text-xs font-helixa">
-                          <div className="text-lg font-bold text-primary">
-                            100+
-                          </div>
+                          <div className="text-lg font-bold text-primary">100+</div>
                           <div className="text-muted-foreground">Workshops</div>
                         </div>
                         <div className="text-xs font-helixa">
-                          <div className="text-lg font-bold text-primary">
-                            15+
-                          </div>
+                          <div className="text-lg font-bold text-primary">15+</div>
                           <div className="text-muted-foreground">Markets</div>
                         </div>
                       </div>
@@ -235,33 +218,19 @@ export default function KeyAchievements() {
                   {/* Knowledge Leadership Preview */}
                   {index === 3 && (
                     <div className="space-y-2">
-                      <div className="text-sm font-medium text-foreground font-helixa">
-                        Documentation Excellence
-                      </div>
+                      <div className="text-sm font-medium text-foreground font-helixa">Documentation Excellence</div>
                       <div className="grid grid-cols-3 gap-2 text-center">
                         <div className="text-xs font-helixa">
-                          <div className="text-lg font-bold text-primary">
-                            Top 5%
-                          </div>
-                          <div className="text-muted-foreground">
-                            Most Viewed
-                          </div>
+                          <div className="text-lg font-bold text-primary">Top 5%</div>
+                          <div className="text-muted-foreground">Most Viewed</div>
                         </div>
                         <div className="text-xs font-helixa">
-                          <div className="text-lg font-bold text-primary">
-                            60+
-                          </div>
-                          <div className="text-muted-foreground">
-                            Docs Shipped This Year
-                          </div>
+                          <div className="text-lg font-bold text-primary">60+</div>
+                          <div className="text-muted-foreground">Docs Shipped This Year</div>
                         </div>
                         <div className="text-xs font-helixa">
-                          <div className="text-lg font-bold text-primary">
-                            Top 0.5%
-                          </div>
-                          <div className="text-muted-foreground">
-                            Employee Rank
-                          </div>
+                          <div className="text-lg font-bold text-primary">Top 0.5%</div>
+                          <div className="text-muted-foreground">Employee Rank</div>
                         </div>
                       </div>
                       <div className="flex justify-center space-x-1">
@@ -296,7 +265,7 @@ export default function KeyAchievements() {
               <div className="flex items-center gap-6">
                 <div className="flex-shrink-0">
                   <img
-                    src={achievements[expandedCard].icon}
+                    src={achievements[expandedCard].icon || "/placeholder.svg"}
                     alt={achievements[expandedCard].title}
                     width={48}
                     height={48}
@@ -326,9 +295,7 @@ export default function KeyAchievements() {
                       rel="noopener noreferrer"
                       className="block p-4 rounded-lg border border-border hover:border-primary/50 transition-colors duration-200 hover:bg-muted/50"
                     >
-                      <h6 className="font-semibold text-foreground mb-2 font-helixa">
-                        Cards Migration
-                      </h6>
+                      <h6 className="font-semibold text-foreground mb-2 font-helixa">Cards Migration</h6>
                       <p className="text-sm text-muted-foreground font-helixa">
                         Import and migrate card payment methods
                       </p>
@@ -339,9 +306,7 @@ export default function KeyAchievements() {
                       rel="noopener noreferrer"
                       className="block p-4 rounded-lg border border-border hover:border-primary/50 transition-colors duration-200 hover:bg-muted/50"
                     >
-                      <h6 className="font-semibold text-foreground mb-2 font-helixa">
-                        UK Bacs Migration
-                      </h6>
+                      <h6 className="font-semibold text-foreground mb-2 font-helixa">UK Bacs Migration</h6>
                       <p className="text-sm text-muted-foreground font-helixa">
                         Import and migrate UK Bacs payment methods
                       </p>
@@ -352,9 +317,7 @@ export default function KeyAchievements() {
                       rel="noopener noreferrer"
                       className="block p-4 rounded-lg border border-border hover:border-primary/50 transition-colors duration-200 hover:bg-muted/50"
                     >
-                      <h6 className="font-semibold text-foreground mb-2 font-helixa">
-                        AU BECS Migration
-                      </h6>
+                      <h6 className="font-semibold text-foreground mb-2 font-helixa">AU BECS Migration</h6>
                       <p className="text-sm text-muted-foreground font-helixa">
                         Import and migrate Australian BECS payment methods
                       </p>
@@ -365,9 +328,7 @@ export default function KeyAchievements() {
                       rel="noopener noreferrer"
                       className="block p-4 rounded-lg border border-border hover:border-primary/50 transition-colors duration-200 hover:bg-muted/50"
                     >
-                      <h6 className="font-semibold text-foreground mb-2 font-helixa">
-                        SEPA Migration
-                      </h6>
+                      <h6 className="font-semibold text-foreground mb-2 font-helixa">SEPA Migration</h6>
                       <p className="text-sm text-muted-foreground font-helixa">
                         Import and migrate SEPA payment methods
                       </p>
@@ -379,44 +340,26 @@ export default function KeyAchievements() {
               {/* Client Engagement World Map */}
               {expandedCard === 2 && (
                 <div className="bg-card rounded-lg shadow-sm border p-4 md:p-6 space-y-6">
-                  <h5 className="text-2xl font-bold text-foreground pb-4 font-helixa">
-                    Global Client Engagement
-                  </h5>
+                  <h5 className="text-2xl font-bold text-foreground pb-4 font-helixa">Global Client Engagement</h5>
 
                   {/* Key Statistics */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">
-                        5+
-                      </div>
-                      <div className="text-sm text-muted-foreground font-helixa">
-                        Payment Types Supported
-                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">5+</div>
+                      <div className="text-sm text-muted-foreground font-helixa">Payment Types Supported</div>
                       <div className="text-xs text-muted-foreground mt-1 font-helixa">
                         ACH, SEPA, Cards, AU Becs, UK Bacs
                       </div>
                     </div>
                     <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">
-                        100+
-                      </div>
-                      <div className="text-sm text-muted-foreground font-helixa">
-                        Large User Workshops
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-1 font-helixa">
-                        Enterprise client scoping
-                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">100+</div>
+                      <div className="text-sm text-muted-foreground font-helixa">Large User Workshops</div>
+                      <div className="text-xs text-muted-foreground mt-1 font-helixa">Enterprise client scoping</div>
                     </div>
                     <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">
-                        15+
-                      </div>
-                      <div className="text-sm text-muted-foreground font-helixa">
-                        Global Markets
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-1 font-helixa">
-                        US, UK, EU, AU, CA
-                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">15+</div>
+                      <div className="text-sm text-muted-foreground font-helixa">Global Markets</div>
+                      <div className="text-xs text-muted-foreground mt-1 font-helixa">US, UK, EU, AU, CA</div>
                     </div>
                   </div>
 
@@ -433,9 +376,7 @@ export default function KeyAchievements() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-3">
-                      <h6 className="font-semibold text-foreground font-helixa">
-                        Payment Schemes Expertise
-                      </h6>
+                      <h6 className="font-semibold text-foreground font-helixa">Payment Schemes Expertise</h6>
                       <ul className="space-y-2 text-sm text-muted-foreground font-helixa">
                         <li className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-primary rounded-full"></div>
@@ -456,9 +397,7 @@ export default function KeyAchievements() {
                       </ul>
                     </div>
                     <div className="space-y-3">
-                      <h6 className="font-semibold text-foreground font-helixa">
-                        Client Success Initiatives
-                      </h6>
+                      <h6 className="font-semibold text-foreground font-helixa">Client Success Initiatives</h6>
                       <ul className="space-y-2 text-sm text-muted-foreground font-helixa">
                         <li className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-primary rounded-full"></div>
@@ -479,12 +418,6 @@ export default function KeyAchievements() {
                       </ul>
                     </div>
                   </div>
-
-                  <p className="text-center text-muted-foreground font-helixa italic">
-                    Orchestrating enterprise-level payment migrations and
-                    go-live initiatives across global markets and payment
-                    schemes
-                  </p>
                 </div>
               )}
 
@@ -493,9 +426,7 @@ export default function KeyAchievements() {
                 <div className="bg-card rounded-lg shadow-sm border p-4 md:p-6 space-y-6">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h5 className="leading-none text-3xl font-bold text-foreground pb-2 font-helixa">
-                        5% to 56%
-                      </h5>
+                      <h5 className="leading-none text-3xl font-bold text-foreground pb-2 font-helixa">5% to 56%</h5>
                       <p className="text-base font-normal text-muted-foreground font-helixa">
                         Case Management Capacity Growth
                       </p>
@@ -531,11 +462,7 @@ export default function KeyAchievements() {
                           bottom: 40,
                         }}
                       >
-                        <CartesianGrid
-                          strokeDasharray="3 3"
-                          stroke="#e5e7eb"
-                          className="opacity-30"
-                        />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" className="opacity-30" />
                         <XAxis
                           dataKey="month"
                           axisLine={false}
@@ -567,10 +494,7 @@ export default function KeyAchievements() {
                             color: "#374151",
                             boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
                           }}
-                          formatter={(value: number) => [
-                            `${value}%`,
-                            "Capacity",
-                          ]}
+                          formatter={(value: number) => [`${value}%`, "Capacity"]}
                           labelFormatter={(label: number) => `Month ${label}`}
                         />
                         <Line
@@ -597,17 +521,13 @@ export default function KeyAchievements() {
 
                   <div className="grid grid-cols-1 items-center border-t border-border pt-5">
                     <div className="flex justify-center items-center">
-                      <div className="text-sm font-medium text-muted-foreground">
-                        24 Month Timeline
-                      </div>
+                      <div className="text-sm font-medium text-muted-foreground">24 Month Timeline</div>
                     </div>
                   </div>
 
                   {/* Team Excellence Recognition */}
                   <div className="bg-muted/30 rounded-lg p-6 space-y-4">
-                    <h6 className="text-xl font-semibold text-foreground font-helixa">
-                      Team Excellence Recognition
-                    </h6>
+                    <h6 className="text-xl font-semibold text-foreground font-helixa">Team Excellence Recognition</h6>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-3">
                         <div className="flex items-center gap-3">
@@ -617,22 +537,18 @@ export default function KeyAchievements() {
                           </span>
                         </div>
                         <p className="text-sm text-muted-foreground font-helixa ml-6">
-                          Multiple team members recognized for outstanding
-                          operational performance and process improvement
-                          initiatives across regional markets
+                          Multiple team members recognized for outstanding operational performance and process
+                          improvement initiatives across regional markets
                         </p>
                       </div>
                       <div className="space-y-3">
                         <div className="flex items-center gap-3">
                           <div className="w-3 h-3 bg-primary rounded-full"></div>
-                          <span className="font-medium text-foreground font-helixa">
-                            Leadership Development Impact
-                          </span>
+                          <span className="font-medium text-foreground font-helixa">Mentor of the Quarter Award</span>
                         </div>
                         <p className="text-sm text-muted-foreground font-helixa ml-6">
-                          Systematic mentorship and resource optimization
-                          resulting in measurable team performance improvements
-                          and career advancement
+                          Received the Mentor of the Quarter Award for exceptional guidance and support in upskilling
+                          the new Migration Support Team in the APAC region.
                         </p>
                       </div>
                     </div>
@@ -650,34 +566,22 @@ export default function KeyAchievements() {
                   {/* Key Statistics */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">
-                        Top 5%
-                      </div>
-                      <div className="text-sm text-muted-foreground font-helixa">
-                        Most Viewed Internal Docs
-                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">Top 5%</div>
+                      <div className="text-sm text-muted-foreground font-helixa">Most Viewed Internal Docs</div>
                       <div className="text-xs text-muted-foreground mt-1 font-helixa">
                         Across all Stripe documentation
                       </div>
                     </div>
                     <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">
-                        60+
-                      </div>
-                      <div className="text-sm text-muted-foreground font-helixa">
-                        Docs Shipped This Year
-                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">60+</div>
+                      <div className="text-sm text-muted-foreground font-helixa">Docs Shipped This Year</div>
                       <div className="text-xs text-muted-foreground mt-1 font-helixa">
                         Launched and edited internally
                       </div>
                     </div>
                     <div className="text-center p-4 bg-muted/30 rounded-lg">
-                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">
-                        Top 0.5%
-                      </div>
-                      <div className="text-sm text-muted-foreground font-helixa">
-                        Stripe Employee Ranking
-                      </div>
+                      <div className="text-3xl font-bold text-primary mb-2 font-helixa">Top 0.5%</div>
+                      <div className="text-sm text-muted-foreground font-helixa">Stripe Employee Ranking</div>
                       <div className="text-xs text-muted-foreground mt-1 font-helixa">
                         Documentation contribution volume
                       </div>
@@ -686,58 +590,44 @@ export default function KeyAchievements() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
-                      <h6 className="font-semibold text-foreground font-helixa">
-                        Documentation Impact
-                      </h6>
+                      <h6 className="font-semibold text-foreground font-helixa">Documentation Impact</h6>
                       <ul className="space-y-3 text-sm text-muted-foreground font-helixa">
                         <li className="flex items-start gap-3">
                           <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                           <span>
-                            Comprehensive migration guides ranking in top 5% of
-                            most viewed internal documentation across Stripe
+                            Comprehensive migration guides ranking in top 5% of most viewed internal documentation
+                            across Stripe
                           </span>
                         </li>
                         <li className="flex items-start gap-3">
                           <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                           <span>
-                            Cross-functional performance enhancement through
-                            systematic knowledge sharing frameworks
+                            Cross-functional performance enhancement through systematic knowledge sharing frameworks
                           </span>
                         </li>
                         <li className="flex items-start gap-3">
                           <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                           <span>
-                            Client success optimization through detailed
-                            technical documentation and best practices
+                            Client success optimization through detailed technical documentation and best practices
                           </span>
                         </li>
                       </ul>
                     </div>
                     <div className="space-y-4">
-                      <h6 className="font-semibold text-foreground font-helixa">
-                        Knowledge Leadership Metrics
-                      </h6>
+                      <h6 className="font-semibold text-foreground font-helixa">Knowledge Leadership Metrics</h6>
                       <ul className="space-y-3 text-sm text-muted-foreground font-helixa">
                         <li className="flex items-start gap-3">
                           <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                          <span>
-                            60+ documents shipped this year, placing in top 0.5%
-                            of Stripe employees
-                          </span>
+                          <span>60+ documents shipped this year, placing in top 0.5% of Stripe employees</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                          <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                          <span>Established reputation as go-to knowledge leader for payment migration expertise</span>
                         </li>
                         <li className="flex items-start gap-3">
                           <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                           <span>
-                            Established reputation as go-to knowledge leader for
-                            payment migration expertise
-                          </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                          <span>
-                            Documentation frameworks that enhanced
-                            cross-functional team performance and client
-                            outcomes
+                            Documentation frameworks that enhanced cross-functional team performance and client outcomes
                           </span>
                         </li>
                       </ul>
@@ -750,5 +640,5 @@ export default function KeyAchievements() {
         </div>
       )}
     </div>
-  );
+  )
 }
