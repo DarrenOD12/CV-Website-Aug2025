@@ -8,12 +8,12 @@ const experiences = [
     role: "Migrations Specialist",
     period: "July 2021–present",
     achievements: [
-      "Identified critical payment and onboarding vulnerability in network policy changes, led cross-functional initiative with internal stakeholders and payment network partners to implement solution protecting 7M+ cards from processing failures while adapting to evolving payment network policies.",
+      "Identified critical payment and onboarding vulnerability in network policy changes, led cross-functional initiative with internal stakeholders and payment network partners to implement solution protecting over 7 million cards from processing failures while adapting to evolving payment network policies.",
       "Successfully launched multiple regional payment method migration programs for cards, AU BECS, UK Bacs and SEPA driving substantial year-over-year growth.",
       "Developed and implemented strategic growth plans for the EMEA and APAC region and created resource allocation and headcount projections for long-term scalability which led to an increase in APAC team case management capacity from 5% to 56% within two years. Recognized as Stripe Mentor of the Quarter with multiple team members earning excellence awards in region.",
-      "Led the development of Stripe's first paid migration operating model offering tailored for enterprises.",
-      "Led hundreds of client workshops across diverse industries and segments, creating tailored payment infrastructure migration solutions to meet unique business requirements and timelines.",
-      "Developed and published customer-facing Stripe documentation while ranking in top 0.5% of internal knowledge contributors based on document creation volume. 7 docs ranking in top 5% most viewed.",
+      "Guided the development of Stripe's first paid migration operating model offering tailored for enterprises and led the enablement of this new service.",
+      "Led hundreds of client workshops across diverse industries and segments, creating tailored payment infrastructure migration solutions to meet unique business requirements and timelines. Supported the development of innovative materials and guidelines for authorization rate optimization, specifically targeted at onboarding large-scale clients, to enhance their payment processing success on the Stripe platform.",
+      "Developed and published customer-facing Stripe documentation while ranking in top 0.5% of internal knowledge contributors based on document creation volume with seven documents ranking in the top 5% most viewed across Stripe.",
       "Delivered high-impact enablement presentations across Sales, Professional Services, and Solution Engineering teams to strengthen cross-functional expertise.",
     ],
   },
@@ -76,7 +76,7 @@ export default function Experience() {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 w-full text-left">
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
-                      <div className="text-2xl font-bold text-foreground font-callestany">{experience.company}</div>
+                      <div className="text-3xl font-bold text-foreground font-callestany">{experience.company}</div>
                     </div>
                     {experience.role && (
                       <div className="text-lg font-light text-foreground mt-1 font-helixa">{experience.role}</div>

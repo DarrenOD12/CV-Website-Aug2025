@@ -21,7 +21,7 @@ const achievements = [
   {
     title: "Client Engagement & Solution Design",
     description:
-      "Directed over 100 enterprise-level migration and go-live initiatives through consultative client workshops, aligning complex technical migration solutions with diverse business requirements.",
+      "Directed over 100 large and enterprise-level migration and go-live initiatives through consultative client workshops, aligning complex technical migration solutions with diverse business requirements.",
     icon: "/assets/client.png",
   },
   {
