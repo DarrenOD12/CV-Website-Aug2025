@@ -7,27 +7,27 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 const achievements = [
   {
-    title: "Strategic Product Launches",
+    title: "Strategic Program Launches",
     description:
-      "Spearheaded mission-critical payment programs with global impact, driving YOY growth through strategic migration product launches including UK Bacs, AU BECS and SEPA across global markets.",
+      "Managed the development and implementation of cross-functional fintech programs safeguarding +7 million cards from processing failures, achieving YOY new user migration growth by establishing regional support and launching new payment method type migrations across global markets.",
     icon: "/assets/product.png",
   },
   {
     title: "Program Management and Team Building",
     description:
-      "Led cross-functional program initiatives to scale the APAC Data Migration team in India, increasing operational capacity 10x through strategic leadership, mentorship excellence, and systematic resource optimization across global teams.",
+      "Rewarded for launching and scaling operational capacity from 5% to 56% in APAC through strategic leadership, mentorship excellence, and systematic resource optimization across global teams.",
     icon: "/assets/program.png",
   },
   {
     title: "Client Engagement & Solution Design",
     description:
-      "Orchestrated enterprise-level migration and go-live initiatives through consultative client workshops, aligning complex technical solutions with diverse business requirements",
+      "Directed over 100 enterprise-level migration and go-live initiatives through consultative client workshops, aligning complex technical migration solutions with diverse business requirements.",
     icon: "/assets/client.png",
   },
   {
     title: "Knowledge Leadership & Documentation",
     description:
-      "Established reputation as knowledge leader, developing comprehensive internal and external facing documentation that enhanced cross-functional performance and user success",
+      "Published external and internal Stripe documentation, ranking in the top 0.5% of internal knowledge contributors with seven pages ranking in the top 5% most viewed documents. Delivered enablement presentations across Sales, Professional Services, and Solution Engineering teams.",
     icon: "/assets/knowledge.png",
   },
 ]
