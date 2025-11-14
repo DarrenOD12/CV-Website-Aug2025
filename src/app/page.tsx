@@ -33,7 +33,7 @@ export default function Page() {
                   className="relative group cursor-pointer"
                   onClick={() =>
                     window.open(
-                      "/assets/Darren_O_Donnell_CV_Jul_2025.pdf",
+                      "/assets/Darren_O_Donnell_CV_Nov_2025.pdf",
                       "_blank",
                     )
                   }
@@ -53,7 +53,7 @@ export default function Page() {
                   className="text-lg text-muted-foreground mt-6 font-helixa text-center cursor-pointer hover:text-primary transition-colors duration-300"
                   onClick={() =>
                     window.open(
-                      "/assets/Darren_O_Donnell_CV_Jul_2025.pdf",
+                      "/assets/Darren_O_Donnell_CV_Nov_2025.pdf",
                       "_blank",
                     )
                   }
