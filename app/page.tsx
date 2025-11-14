@@ -29,7 +29,12 @@ export default function Page() {
               <div className="flex flex-col items-center">
                 <div
                   className="relative group cursor-pointer"
-                  onClick={() => window.open("/assets/Darren_O_Donnell_CV_Jul_2025.pdf", "_blank")}
+                  onClick={() => {
+                    const link = document.createElement("a")
+                    link.href = "/assets/Darren_O_Donnell_CV_Nov_2025.pdf"
+                    link.download = "Darren_O_Donnell_CV_Nov_2025.pdf"
+                    link.click()
+                  }}
                 >
                   <img
                     src="/assets/CV_preview.png"
@@ -44,7 +49,12 @@ export default function Page() {
                 </div>
                 <p
                   className="text-lg text-muted-foreground mt-6 font-helixa text-center cursor-pointer hover:text-primary transition-colors duration-300"
-                  onClick={() => window.open("/assets/Darren_O_Donnell_CV_Jul_2025.pdf", "_blank")}
+                  onClick={() => {
+                    const link = document.createElement("a")
+                    link.href = "/assets/Darren_O_Donnell_CV_Nov_2025.pdf"
+                    link.download = "Darren_O_Donnell_CV_Nov_2025.pdf"
+                    link.click()
+                  }}
                 >
                   Click to Download CV
                 </p>
