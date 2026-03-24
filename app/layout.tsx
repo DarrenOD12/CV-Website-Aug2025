@@ -41,7 +41,7 @@ export default function RootLayout({
         <link rel="preload" href="/assets/Callestany.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange enableColorScheme={false}>
           {children}
         </ThemeProvider>
       </body>

@@ -21,6 +21,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       enableSystem={false}
       disableTransitionOnChange={false}
       storageKey="darren-cv-theme"
+      enableColorScheme={false}
     >
       {children}
     </ThemeProvider>
