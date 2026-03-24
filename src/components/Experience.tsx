@@ -98,8 +98,7 @@ export default function Experience() {
               <AccordionContent className="px-6 pb-6">
                 <div className="space-y-3 mt-4">
                   {experience.achievements.map((achievement, achievementIndex) => (
-                    <div key={achievementIndex} className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                    <div key={achievementIndex}>
                       <CardDescription className="text-foreground/80 leading-relaxed font-helixa">
                         {achievement}
                       </CardDescription>
