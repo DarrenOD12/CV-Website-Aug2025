@@ -1,4 +1,3 @@
-import { TempoInit } from "@/components/tempo-init";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -68,7 +67,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <ClientLayout>
           {children}
-          <TempoInit />
         </ClientLayout>
       </body>
     </html>
