@@ -53,6 +53,7 @@
     "react-dom": "^18",
     "react-hook-form": "latest",
     "react-resizable-panels": "latest",
+    "react-router-dom": "latest",
     "recharts": "latest",
     "stripe": "^17.6.0",
     "tempo-devtools": "^2.0.109",
